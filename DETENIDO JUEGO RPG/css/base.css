@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --panel: #12121a;
+  --panel2: #1a1a28;
+  --border: #3a3a5c;
+  --gold: #f5c842;
+  --red: #e84040;
+  --green: #42c874;
+  --blue: #4a8fff;
+  --purple: #9b5de5;
+  --orange: #ff8c00;
+  --white: #e8e8f0;
+  --gray: #6a6a8a;
+  --calm: #4a8fff;
+  --pressure: #e84040;
+  --cred: #f5c842;
+  --risk: #ff8c00;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  font-family: 'Press Start 2P', monospace;
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+}
+
+#game-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+canvas.sprite-canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--border); }

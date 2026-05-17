@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════════════════
+   MOBILE & RESPONSIVE — Cargado al final, sobreescribe
+   ═══════════════════════════════════════════════════ */
+
+/* Prevent text auto-zoom on iOS */
+html { -webkit-text-size-adjust: 100%; }
+
+/* Disable double-tap zoom on game buttons */
+.btn, .state-option, button { touch-action: manipulation; }
+
+/* Phone — portrait & small screens */
+@media (max-width: 640px) {
+
+  #game-container {
+    padding: 6px;
+    max-width: 100%;
+  }
+
+  /* ─── TITLE SCREEN ─── */
+  #title-screen {
+    gap: 16px;
+    padding: 12px;
+  }
+  .title-art-container {
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .title-art-container canvas {
+    width: 40px !important;
+    height: 52px !important;
+  }
+  .game-title {
+    font-size: 32px !important;
+    letter-spacing: 2px;
+  }
+  .game-subtitle {
+    font-size: 8px !important;
+    line-height: 1.8;
+    padding: 0 8px;
+  }
+  .legal-note {
+    font-size: 7px;
+    padding: 8px 4px 0;
+  }
+
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    padding: 6px 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .phase-label { font-size: 9px !important; }
+  .char-label, #state-label-top, #turn-label { font-size: 7px !important; }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 6px;
+  }
+  .stat-name { font-size: 8px !important; }
+  .stat-val { font-size: 8px !important; }
+  .stat-bar-bg { height: 6px; }
+
+  /* ─── SCENE ─── */
+  .scene-area {
+    min-height: 160px;
+    padding: 8px;
+  }
+  .scene-area .sprite-container canvas {
+    width: 48px !important;
+    height: 66px !important;
+  }
+  .sprite-name { font-size: 6px !important; }
+  .scene-location {
+    font-size: 6px;
+    padding: 2px 6px;
+    top: 4px;
+  }
+
+  /* ─── DIALOGUE BOX ─── */
+  .dialogue-box {
+    padding: 10px;
+    padding-left: 60px;
+    min-height: 80px;
+  }
+  canvas.dialogue-portrait {
+    width: 44px !important;
+    height: 44px !important;
+    left: 6px;
+  }
+  .dialogue-speaker { font-size: 7px; gap: 4px; flex-wrap: wrap; }
+  #speaker-role { font-size: 6px !important; }
+  .dialogue-text {
+    font-size: 17px !important;
+    line-height: 1.4;
+    min-height: 32px;
+  }
+
+  /* ─── OPTIONS ─── */
+  .options-area { padding: 8px; }
+  .options-title { font-size: 7px; padding-bottom: 4px; }
+  .btn {
+    font-size: 9px !important;
+    padding: 12px 10px;
+    line-height: 1.6;
+    /* Bigger touch target */
+    min-height: 44px;
+  }
+  .btn:hover { transform: none; }
+
+  /* ─── CHARACTER SELECT ─── */
+  .btn-char { padding: 10px; gap: 8px; }
+  .btn-char canvas { width: 28px !important; height: 42px !important; }
+  .char-name { font-size: 9px !important; }
+  .char-desc { font-size: 7px !important; line-height: 1.7; }
+
+  /* ─── STATE SELECT ─── */
+  .state-select-grid {
+    grid-template-columns: 1fr;
+    max-height: 60vh;
+    gap: 6px;
+  }
+  .state-option { font-size: 8px; padding: 10px; min-height: 44px; }
+  .section-title { font-size: 10px; }
+  .section-box { padding: 10px; }
+
+  /* ─── PHASE BANNER ─── */
+  .phase-banner { padding: 16px; }
+  .phase-banner h2 { font-size: 20px !important; text-align: center; }
+  .phase-banner p { font-size: 8px !important; line-height: 1.7; padding: 0 12px; }
+
+  /* ─── NOTIFICATION ─── */
+  .notification {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+    font-size: 9px;
+    padding: 10px 12px;
+    line-height: 1.6;
+  }
+
+  /* ─── AUDIO TOGGLE ─── */
+  .audio-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    top: 8px;
+    right: 8px;
+  }
+
+  /* ─── ENDING ─── */
+  #ending-screen { padding: 12px; gap: 12px; }
+  .ending-sprite, #ending-sprite { width: 80px !important; height: 110px !important; }
+  .ending-title { font-size: 14px !important; }
+  .ending-verdict { font-size: 16px !important; padding: 12px; line-height: 1.5; }
+  .ending-stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .ending-stat-item { padding: 8px; }
+  .ending-stat-name { font-size: 7px; }
+  .ending-stat-val { font-size: 12px; }
+  #ending-law-note { font-size: 8px !important; padding: 10px; }
+}
+
+/* Very small screens (iPhone SE / older Android) */
+@media (max-width: 360px) {
+  .game-title { font-size: 26px !important; letter-spacing: 1px; }
+  .dialogue-text { font-size: 15px !important; }
+  .scene-area { min-height: 140px; }
+  .scene-area .sprite-container canvas { width: 42px !important; height: 58px !important; }
+  canvas.dialogue-portrait { width: 38px !important; height: 38px !important; }
+  .dialogue-box { padding-left: 50px; }
+}
+
+/* Landscape on phones — keep stats compact, scene shorter */
+@media (max-width: 920px) and (orientation: landscape) and (max-height: 500px) {
+  #title-screen { min-height: auto; padding: 20px 12px; gap: 12px; }
+  .game-title { font-size: 28px !important; }
+  .scene-area { min-height: 130px; }
+  .stats-bar { grid-template-columns: repeat(4, 1fr); }
+  .dialogue-text { font-size: 16px !important; }
+  .phase-banner h2 { font-size: 22px !important; }
+}
+
+/* Touch / no-hover devices — kill hover transforms that feel buggy */
+@media (hover: none) {
+  .btn:hover, .state-option:hover {
+    transform: none;
+  }
+  .btn:hover::before { opacity: 0; }
+}
+
+/* Tablet — keep desktop look but tighten a bit */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #game-container { padding: 12px; }
+  .scene-area { min-height: 200px; }
+}

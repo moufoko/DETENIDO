@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="DETENIDO — Un RPG de decisiones legales basado en el Código Nacional de Procedimientos Penales de México.">
+<title>DETENIDO — Un RPG de Decisiones Legales</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/ui.css">
+<link rel="stylesheet" href="css/screens.css">
+<link rel="stylesheet" href="css/effects.css">
+<link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+<div id="game-container">
+
+<!-- TITLE SCREEN -->
+<div id="title-screen">
+  <div class="title-art-container">
+    <canvas id="cop-sprite" class="sprite-canvas" width="48" height="64" style="width:48px;height:64px"></canvas>
+    <div style="text-align:center">
+      <div class="game-title">DETENIDO</div>
+      <div style="font-size:clamp(6px,1.5vw,9px);color:var(--gray);margin-top:6px;">UN RPG DE DECISIONES LEGALES</div>
+    </div>
+    <canvas id="suspect-sprite" class="sprite-canvas" width="48" height="64" style="width:48px;height:64px"></canvas>
+  </div>
+  <div class="game-subtitle">
+    Cada decisión que tomas...<br>ya es parte de tu sentencia.<br><br>
+    Basado en el Código Nacional<br>de Procedimientos Penales (México)
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:440px">
+    <button class="btn" onclick="startGame()" style="text-align:center;border-color:var(--gold);color:var(--gold)">▶ INICIAR JUEGO</button>
+    <button class="btn" onclick="showCredits()" style="text-align:center;font-size:8px">CRÉDITOS</button>
+  </div>
+  <p class="legal-note">Este juego es de carácter educativo y narrativo.<br>No promueve la comisión de delitos. Basado en legislación real mexicana.<br>Sistema acusatorio — CNPP 2014 y leyes estatales.</p>
+</div>
+
+<!-- CHARACTER SELECT -->
+<div id="char-screen" style="display:none;flex-direction:column;gap:12px;padding:20px 0">
+  <div class="section-box">
+    <div class="section-title">▌ SELECCIONA TU PERSONAJE</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-char" onclick="selectChar('ratero')">
+        <canvas id="sp-ratero" width="32" height="48" style="width:32px;height:48px;image-rendering:pixelated;flex-shrink:0"></canvas>
+        <div>
+          <div class="char-name">1. EL RATERO IMPULSIVO</div>
+          <div class="char-desc">Robo con violencia — Código: Art. 381 CP<br>Temperamento: IMPULSIVO / Riesgo: ALTO<br>Dificultad: ★★★☆☆</div>
+        </div>
+      </button>
+      <button class="btn btn-char" onclick="selectChar('narco')">
+        <canvas id="sp-narco" width="32" height="48" style="width:32px;height:48px;image-rendering:pixelated;flex-shrink:0"></canvas>
+        <div>
+          <div class="char-name">2. EL DISTRIBUIDOR</div>
+          <div class="char-desc">Venta de narcóticos — Ley General de Salud<br>Temperamento: CALCULADOR / Riesgo: MUY ALTO<br>Dificultad: ★★★★☆</div>
+        </div>
+      </button>
+      <button class="btn btn-char" onclick="selectChar('loco')">
+        <canvas id="sp-loco" width="32" height="48" style="width:32px;height:48px;image-rendering:pixelated;flex-shrink:0"></canvas>
+        <div>
+          <div class="char-name">3. EL INIMPUTABLE</div>
+          <div class="char-desc">Daño en propiedad / Amenazas / Lesiones<br>Temperamento: ERRÁTICO / Sin familia<br>Dificultad: ★★☆☆☆ (ruta especial)</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STATE SELECT -->
+<div id="state-screen" style="display:none;flex-direction:column;gap:12px;padding:20px 0">
+  <div class="section-box">
+    <div class="section-title">▌ ¿EN QUÉ ESTADO SE COMETIÓ EL DELITO?</div>
+    <div style="font-size:7px;color:var(--gray);margin-bottom:12px;line-height:2">
+      Todos los estados se rigen por el CNPP (2014).<br>
+      Tu selección afecta la severidad de penas y el estilo del fiscal.
+    </div>
+    <div class="state-select-grid" id="state-grid"></div>
+  </div>
+</div>
+
+<!-- MAIN GAME UI -->
+<div id="game-ui">
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div>
+      <div class="phase-label" id="phase-label">FASE 1: DETENCIÓN</div>
+      <div class="char-label" id="char-label-top">Personaje: —</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:7px;color:var(--gray)" id="state-label-top">Estado: —</div>
+      <div style="font-size:6px;color:var(--gray)" id="turn-label">Turno 1</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item stat-calm">
+      <div class="stat-name" style="color:var(--calm)">CALMA</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill" id="bar-calm" style="width:70%"></div></div>
+      <div class="stat-val" id="val-calm">70</div>
+    </div>
+    <div class="stat-item stat-pressure">
+      <div class="stat-name" style="color:var(--pressure)">PRESIÓN</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill" id="bar-pressure" style="width:20%"></div></div>
+      <div class="stat-val" id="val-pressure">20</div>
+    </div>
+    <div class="stat-item stat-cred">
+      <div class="stat-name" style="color:var(--cred)">CREDIB.</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill" id="bar-cred" style="width:60%"></div></div>
+      <div class="stat-val" id="val-cred">60</div>
+    </div>
+    <div class="stat-item stat-risk">
+      <div class="stat-name" style="color:var(--risk)">RIESGO</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill" id="bar-risk" style="width:30%"></div></div>
+      <div class="stat-val" id="val-risk">30</div>
+    </div>
+  </div>
+
+  <!-- SCENE -->
+  <div class="scene-area" id="scene-area">
+    <canvas class="scene-bg-canvas" id="scene-bg-canvas"></canvas>
+    <div class="lighting-overlay" id="lighting-overlay"></div>
+    <canvas class="particles-canvas" id="particles-canvas"></canvas>
+    <div class="scene-location" id="scene-location">Calle — Noche</div>
+    <div class="sprite-container" id="left-sprite">
+      <canvas id="sprite-left" class="sprite-canvas" width="64" height="88" style="width:64px;height:88px"></canvas>
+      <div class="sprite-name" id="left-name">POLICÍA</div>
+    </div>
+    <div style="flex:1"></div>
+    <div class="sprite-container" id="right-sprite">
+      <canvas id="sprite-right" class="sprite-canvas" width="64" height="88" style="width:64px;height:88px"></canvas>
+      <div class="sprite-name" id="right-name">TÚ</div>
+    </div>
+  </div>
+
+  <!-- DIALOGUE -->
+  <div class="dialogue-box">
+    <canvas id="dialogue-portrait" class="dialogue-portrait" width="64" height="64"></canvas>
+    <div class="dialogue-speaker" id="dialogue-speaker">
+      <span id="speaker-name">AGENTE RAMÍREZ</span>
+      <span style="font-size:6px;color:var(--gray)" id="speaker-role">[Policía Preventiva]</span>
+    </div>
+    <div class="dialogue-text" id="dialogue-text">Cargando...</div>
+  </div>
+
+  <!-- OPTIONS -->
+  <div class="options-area">
+    <div class="options-title">⚔ ELIGE TU ACCIÓN — Turno del jugador</div>
+    <div class="options-grid" id="options-grid"></div>
+  </div>
+
+  <div style="font-size:6px;color:var(--gray);padding:6px;text-align:center">
+    Art. 128 CNPP — Derechos del imputado al momento de la detención
+  </div>
+</div>
+
+<!-- ENDING SCREEN -->
+<div id="ending-screen">
+  <canvas id="ending-sprite" class="sprite-canvas" width="96" height="132" style="width:96px;height:132px"></canvas>
+  <div class="ending-title" id="ending-title" style="color:var(--red)">VEREDICTO FINAL</div>
+  <div class="ending-verdict" id="ending-verdict">...</div>
+  <div class="ending-stats">
+    <div class="ending-stat-item"><div class="ending-stat-name">CALMA FINAL</div><div class="ending-stat-val" id="end-calm">--</div></div>
+    <div class="ending-stat-item"><div class="ending-stat-name">PRESIÓN</div><div class="ending-stat-val" id="end-pressure">--</div></div>
+    <div class="ending-stat-item"><div class="ending-stat-name">CREDIBILIDAD</div><div class="ending-stat-val" id="end-cred">--</div></div>
+    <div class="ending-stat-item"><div class="ending-stat-name">RIESGO LEGAL</div><div class="ending-stat-val" id="end-risk">--</div></div>
+  </div>
+  <div id="ending-law-note" style="font-size:7px;color:var(--gray);max-width:520px;line-height:2;text-align:center;border:1px solid var(--border);padding:12px;background:var(--panel)"></div>
+  <button class="btn" onclick="restartGame()" style="max-width:300px;text-align:center;border-color:var(--gold);color:var(--gold)">▶ JUGAR DE NUEVO</button>
+</div>
+
+</div><!-- end game-container -->
+
+<!-- LOADING -->
+<div id="loading-overlay">
+  <div style="font-size:10px;color:var(--gold)">CARGANDO...</div>
+  <div style="font-size:7px;color:var(--gray)">Preparando tu caso</div>
+</div>
+
+<!-- Scripts: order matters (sprites + story before game, audio before game) -->
+<script src="js/sprites.js"></script>
+<script src="js/backgrounds.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/lighting.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/story.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>

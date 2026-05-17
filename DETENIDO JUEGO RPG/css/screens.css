@@ -1,0 +1,137 @@
+/* TITLE SCREEN */
+#title-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 24px;
+  animation: fadeIn 1s ease;
+}
+
+.title-pixel-art {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.game-title {
+  font-size: clamp(28px, 6vw, 52px);
+  color: var(--red);
+  text-align: center;
+  letter-spacing: 4px;
+  animation: glow 2s ease-in-out infinite;
+  line-height: 1.3;
+}
+.game-subtitle {
+  font-size: clamp(6px, 1.5vw, 11px);
+  color: var(--gray);
+  text-align: center;
+  line-height: 2;
+  max-width: 520px;
+}
+.blink { animation: blink 1s step-end infinite; }
+
+/* PIXEL COPS TITLE ART */
+.title-art-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin: 8px 0;
+}
+
+/* STATE SCREEN */
+#state-screen { display:none; }
+
+/* ENDING SCREEN */
+#ending-screen {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  gap:20px;
+  text-align:center;
+  animation: fadeIn 1s ease;
+}
+
+.ending-title { font-size: clamp(12px, 3vw, 22px); margin-bottom: 8px; }
+.ending-verdict {
+  font-family: 'VT323', monospace;
+  font-size: clamp(16px, 4vw, 28px);
+  color: var(--gray);
+  max-width: 600px;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  padding: 16px;
+  background: var(--panel);
+}
+.ending-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+.ending-stat-item {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align:center;
+}
+.ending-stat-name { font-size: 7px; color: var(--gray); margin-bottom: 6px; }
+.ending-stat-val { font-size: 14px; color: var(--gold); }
+
+/* STATE SELECT */
+.state-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 4px;
+}
+.state-option {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 10px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: left;
+}
+.state-option:hover { border-color: var(--gold); color: var(--gold); }
+
+.section-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 8px;
+}
+.section-title { font-size: 9px; color: var(--gold); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+#loading-overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  z-index:5000;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  color:var(--gold);
+  flex-direction:column;
+  gap:12px;
+}
+
+.legal-note {
+  font-size: 6px;
+  color: var(--gray);
+  line-height: 2;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  max-width: 560px;
+}
